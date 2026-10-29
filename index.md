@@ -6,8 +6,8 @@ permalink: /
 
 <section class="hero">
   <p class="eyebrow">FIELD REPORTS DATABASE</p>
-  <h1>Intelligence Archive</h1>
-  <p class="hero-copy">A searchable archive of field reports, encounters, and faction intelligence.</p>
+  <h1>Intelligence Archive 2026</h1>
+  <p class="hero-copy">A searchable archive of field reports, encounters, and faction intelligence by Tybo</p>
   <a class="button" href="{{ '/reports/' | relative_url }}">Browse reports <span aria-hidden="true">→</span></a>
 </section>
 
