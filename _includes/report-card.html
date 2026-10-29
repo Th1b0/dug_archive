@@ -1,0 +1,19 @@
+{% assign report = include.report %}
+{% capture searchable %}{{ report.title }} {{ report.report_id }} {{ report.location }} {{ report.subjects | join: " " }} {{ report.tags | join: " " }} {{ report.content | strip_html }}{% endcapture %}
+<a class="report-card" href="{{ report.url | relative_url }}" data-report-card data-search="{{ searchable | downcase | escape }}">
+  <div class="card-top">
+    <span class="report-id">{{ report.report_id | default: "FIELD REPORT" }}</span>
+    <span class="card-arrow" aria-hidden="true">↗</span>
+  </div>
+  <h3>{{ report.title | escape }}</h3>
+  <p class="card-summary">{{ report.summary | default: report.excerpt | strip_html | truncate: 150 }}</p>
+  <div class="card-meta">
+    {% if report.date %}<span>{{ report.date | date: "%d %b %Y" }}</span>{% endif %}
+    {% if report.location %}<span>{{ report.location | escape }}</span>{% endif %}
+  </div>
+  {% if report.tags %}
+  <div class="tag-list">
+    {% for tag in report.tags limit: 4 %}<span class="tag">{{ tag }}</span>{% endfor %}
+  </div>
+  {% endif %}
+</a>

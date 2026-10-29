@@ -1,0 +1,24 @@
+title: Intelligence Archive
+description: Field reports and intelligence records
+url: "https://YOUR-USERNAME.github.io"
+baseurl: "/intelligence-archive"
+markdown: kramdown
+kramdown:
+  input: GFM
+permalink: pretty
+
+collections:
+  reports:
+    output: true
+    permalink: /reports/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: reports
+    values:
+      layout: report
+
+exclude:
+  - README.md
+  - LICENSE
