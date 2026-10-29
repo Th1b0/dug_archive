@@ -1,4 +1,4 @@
-# Intelligence Archive — GitHub Pages starter
+# Intelligence Archive
 
 A Jekyll static website for Markdown reports. Includes a responsive navbar, automatic report cards, client-side search, report metadata, section table of contents, and copyable report URLs.
 
