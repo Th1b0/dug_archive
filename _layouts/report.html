@@ -1,3 +1,4 @@
+
 ---
 layout: default
 ---
@@ -14,7 +15,7 @@ layout: default
     </div>
     {% if page.tags %}
     <div class="tag-list">
-      {% for tag in page.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
+      {% for tag in page.tags %}<span class="tag">{{ tag | escape }}</span>{% endfor %}
     </div>
     {% endif %}
   </header>
@@ -25,7 +26,7 @@ layout: default
       <nav id="toc" aria-label="Report contents">
         <a href="#report-start">Report overview</a>
       </nav>
-      <button class="small-button" id="copy-report-link" type="button">Copy report link</button>
+      <button class="small-button" id="copy-report-link" type="button">Copy read-only link</button>
       <p class="copy-status" id="copy-status" aria-live="polite"></p>
     </aside>
 
@@ -57,12 +58,22 @@ layout: default
 
   const copyButton = document.getElementById('copy-report-link');
   const status = document.getElementById('copy-status');
+
   copyButton.addEventListener('click', async () => {
+    const shareUrl = new URL(window.location.href);
+
+    // Enable shared-view mode in the copied URL.
+    shareUrl.searchParams.set('view', 'shared');
+
+    // Remove any heading fragment.
+    shareUrl.hash = '';
+
     try {
-      await navigator.clipboard.writeText(window.location.href);
-      status.textContent = 'Link copied.';
+      await navigator.clipboard.writeText(shareUrl.href);
+      status.textContent = 'Read-only link copied.';
     } catch {
-      status.textContent = 'Copy unavailable. Copy the URL from your browser.';
+      window.prompt('Copy this read-only report link:', shareUrl.href);
+      status.textContent = 'Copy the link from the dialog.';
     }
   });
 })();
