@@ -52,7 +52,6 @@
       <nav class="main-nav" aria-label="Main navigation">
         <a {% if page.url == '/' %}aria-current="page"{% endif %} href="{{ '/' | relative_url }}">Home</a>
         <a {% if page.url contains '/reports' or page.layout == 'report' %}aria-current="page"{% endif %} href="{{ '/reports/' | relative_url }}">All reports</a>
-        <a href="{{ '/about/' | relative_url }}">About</a>
       </nav>
     </div>
   </header>
@@ -63,8 +62,8 @@
 
   <footer class="site-footer">
     <div class="footer-inner">
-      <span>INTELLIGENCE ARCHIVE</span>
-      <span>Private roleplay records · Static archive</span>
+      <span>Report ARCHIVE</span>
+      <span>Tybo's reports</span>
     </div>
   </footer>
   
