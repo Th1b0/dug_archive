@@ -1,7 +1,7 @@
 title: Intelligence Archive
 description: Field reports and intelligence records
-url: "https://th1b0.github.io"
-baseurl: "/intelligence-archive"
+url: " https://th1b0.github.io/"
+baseurl: "/dug_archive"
 markdown: kramdown
 kramdown:
   input: GFM
