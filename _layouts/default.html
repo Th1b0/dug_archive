@@ -2,38 +2,63 @@
 <html lang="en">
 <head>
   
+
 <script>
-  (() => {
-    const PASSWORD = "14Cf_4}k%%V{";
-    const STORAGE_KEY = "intelligence_archive_authenticated";
+(() => {
+  const PASSWORD = "14Cf_4}k%%V{";
+  const STORAGE_KEY = "intelligence_archive_authenticated";
 
-    function showPasswordPrompt() {
-      while (localStorage.getItem(STORAGE_KEY) !== "true") {
-        const entered = prompt("Intelligence Archive — Enter password:");
+  const params = new URLSearchParams(window.location.search);
+  const isSharedReport =
+    window.location.pathname.includes("/reports/") &&
+    params.get("view") === "shared";
 
-        if (entered === null) {
-          document.documentElement.innerHTML = `
-            <head><title>Access denied</title></head>
-            <body style="background:#23252b;color:#e2e5eb;font:16px sans-serif;padding:40px">
-              <h1>Access denied</h1>
-              <p>A password is required to view this archive.</p>
-              <button onclick="location.reload()">Try again</button>
-            </body>`;
-          return;
-        }
+  if (isSharedReport) {
+    document.documentElement.classList.add("shared-read-only");
+    return;
+  }
 
-        if (entered === PASSWORD) {
-          localStorage.setItem(STORAGE_KEY, "true");
-          return;
-        }
+  if (localStorage.getItem(STORAGE_KEY) === "true") {
+    return;
+  }
 
-        alert("Incorrect password.");
+  function showPasswordPrompt() {
+    while (localStorage.getItem(STORAGE_KEY) !== "true") {
+      const entered = prompt(
+        "Intelligence Archive — Enter password:"
+      );
+
+      if (entered === null) {
+        document.documentElement.innerHTML = `
+          <head>
+            <title>Access denied</title>
+          </head>
+          <body style="
+            background:#23252b;
+            color:#e2e5eb;
+            font:16px sans-serif;
+            padding:40px
+          ">
+            <h1>Access denied</h1>
+            <p>A password is required to view this archive.</p>
+            <button onclick="location.reload()">Try again</button>
+          </body>`;
+        return;
       }
-    }
 
-    showPasswordPrompt();
-  })();
+      if (entered === PASSWORD) {
+        localStorage.setItem(STORAGE_KEY, "true");
+        return;
+      }
+
+      alert("Incorrect password.");
+    }
+  }
+
+  showPasswordPrompt();
+})();
 </script>
+
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
