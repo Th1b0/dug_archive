@@ -1,54 +1,31 @@
-
 ---
 layout: default
 ---
-
 <article class="report-page">
   <a class="back-link" href="{{ '/reports/' | relative_url }}">← All reports</a>
 
   <header class="report-header">
-    <p class="eyebrow">
-      {{ page.report_id | default: "FIELD REPORT" }}
-      {% if page.classification %} / {{ page.classification }}{% endif %}
-    </p>
-
+    <p class="eyebrow">{{ page.report_id | default: "FIELD REPORT" }}{% if page.classification %} / {{ page.classification }}{% endif %}</p>
     <h1>{{ page.title | escape }}</h1>
-
     <div class="metadata">
-      {% if page.date %}
-        <span><b>Date</b> {{ page.date | date: "%d %b %Y" }}</span>
-      {% endif %}
-
-      {% if page.location %}
-        <span><b>Location</b> {{ page.location | escape }}</span>
-      {% endif %}
-
-      {% if page.reporting_individual %}
-        <span><b>Author</b> {{ page.reporting_individual | escape }}</span>
-      {% endif %}
+      {% if page.date %}<span><b>Date</b> {{ page.date | date: "%d %b %Y" }}</span>{% endif %}
+      {% if page.location %}<span><b>Location</b> {{ page.location | escape }}</span>{% endif %}
+      {% if page.reporting_individual %}<span><b>Author</b> {{ page.reporting_individual | escape }}</span>{% endif %}
     </div>
-
     {% if page.tags %}
-      <div class="tag-list">
-        {% for tag in page.tags %}
-          <span class="tag">{{ tag | escape }}</span>
-        {% endfor %}
-      </div>
+    <div class="tag-list">
+      {% for tag in page.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
+    </div>
     {% endif %}
   </header>
 
   <div class="report-layout">
     <aside class="toc-panel">
       <p class="eyebrow">IN THIS REPORT</p>
-
       <nav id="toc" aria-label="Report contents">
         <a href="#report-start">Report overview</a>
       </nav>
-
-      <button class="small-button" id="copy-report-link" type="button">
-        Copy read-only link
-      </button>
-
+      <button class="small-button" id="copy-report-link" type="button">Copy report link</button>
       <p class="copy-status" id="copy-status" aria-live="polite"></p>
     </aside>
 
@@ -62,63 +39,30 @@ layout: default
 (() => {
   const content = document.querySelector('.report-content');
   const toc = document.getElementById('toc');
-
   if (!content || !toc) return;
 
-  // Build the table of contents from report headings.
   const headings = [...content.querySelectorAll('h2, h3')];
-
   headings.forEach((heading, index) => {
     if (!heading.id) {
-      const slug = heading.textContent
-        .trim()
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, '')
-        .replace(/\s+/g, '-');
-
+      const slug = heading.textContent.trim().toLowerCase()
+        .replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
       heading.id = slug || `section-${index + 1}`;
     }
-
     const link = document.createElement('a');
     link.href = `#${heading.id}`;
     link.textContent = heading.textContent.trim();
-
-    if (heading.tagName === 'H3') {
-      link.classList.add('toc-sub');
-    }
-
+    if (heading.tagName === 'H3') link.classList.add('toc-sub');
     toc.appendChild(link);
   });
 
-  // Copy a link that opens this report in shared-view mode.
   const copyButton = document.getElementById('copy-report-link');
   const status = document.getElementById('copy-status');
-
-  if (!copyButton || !status) return;
-
   copyButton.addEventListener('click', async () => {
-    const shareUrl = new URL(window.location.href);
-
-    // Preserve any existing query parameters, but enable shared view.
-    shareUrl.searchParams.set('view', 'shared');
-
-    // Remove heading fragments so the link opens at the report itself.
-    shareUrl.hash = '';
-
     try {
-      await navigator.clipboard.writeText(shareUrl.href);
-
-      status.textContent = 'Read-only link copied.';
-      copyButton.textContent = 'Link copied!';
-
-      setTimeout(() => {
-        status.textContent = '';
-        copyButton.textContent = 'Copy read-only link';
-      }, 2500);
+      await navigator.clipboard.writeText(window.location.href);
+      status.textContent = 'Link copied.';
     } catch {
-      // Fallback for browsers where clipboard access is unavailable.
-      window.prompt('Copy this read-only report link:', shareUrl.href);
-      status.textContent = 'Copy the link from the dialog.';
+      status.textContent = 'Copy unavailable. Copy the URL from your browser.';
     }
   });
 })();
