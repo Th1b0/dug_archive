@@ -24,8 +24,10 @@ summary: "Encounter with Vinnie, two unidentified Fireflies, and Big Mac. Discus
 
 **Subject:** Encounter with **Vinnie**, **Two Unidentified Fireflies** and **“Big Mac”**  
 **Location:** Pusta
+
 **Reporting Individual:** Tybo  
 **Classification:** Verified Intelligence
+
 **Source Reliability:** Trustworthy
 
 ---
